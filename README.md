@@ -17,8 +17,8 @@ Image_Preprocessing then performs random shifts across the vertical axis and ran
 ## BarkNet
 
 BarkNet uses Nadam as the optimizer and the ResNet-50 Architecture with ImageNet weights. As usual with transfer learning the CNN feature maps are frozen, and
-the dense layer is trained. I chose to train it over 15 epochs due to negligible increase with continuing epochs. The accuracy of the model for each epoch and
-for each fold can be found in the results_graphs folder.
+the dense layer is trained. I chose to train it over 15 epochs due to negligible increase in accuracy with continuing epochs. The accuracy of the model for each
+epoch and for each fold can be found in the results_graphs folder.
 
 ## Packages Needed
 * NumPy == 1.19.2
@@ -29,6 +29,6 @@ for each fold can be found in the results_graphs folder.
 
 ## Acknowledgements
 
-Tree Species Identification from Bark Images Using Convolutional Neural Networks: https://arxiv.org/abs/1803.00949
+*Tree Species Identification from Bark Images Using Convolutional Neural Networks*: https://arxiv.org/abs/1803.00949
 
 
