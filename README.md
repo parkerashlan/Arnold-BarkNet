@@ -27,4 +27,8 @@ for each fold can be found in the results_graphs folder.
 * Python == 3.0 or above
 * Matplotlib == 3.2.2
 
+## Acknowledgements
+
+Tree Species Identification from Bark Images Using Convolutional Neural Networks: https://arxiv.org/abs/1803.00949
+
 
