@@ -20,5 +20,11 @@ BarkNet uses Nadam as the optimizer and the ResNet-50 Architecture with ImageNet
 the dense layer is trained. I chose to train it over 15 epochs due to negligible increase with continuing epochs. The accuracy of the model for each epoch and
 for each fold can be found in the results_graphs folder.
 
-Packages Needed
+## Packages Needed
+* NumPy == 1.19.2
+* Pandas == 1.1.3
+* TensorFlow == 2.3.0
+* Python == 3.0 or above
+* Matplotlib == 3.2.2
+
 
