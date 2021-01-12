@@ -109,7 +109,8 @@ class BarkPreprocessing:
                 batch_crops[i] = BarkPreprocessing.random_crop(batch_x[i], (crop_length, crop_length))
             yield batch_crops, batch_y
 
-    def preprocessing(self, train_df, val_df, target_size=(2000, 912), batch_size=32):
+    def preprocessing(self, train_df=None, val_df=None, test_df=None, target_size=(2000, 912), batch_size=32,
+                      testing=False):
         """
         Preprocess the image using ImageDataGenerator. Only does random flips and random crops right now
         to reflect the BarkNet 1.0 paper. (Could be updated later.)
@@ -128,17 +129,31 @@ class BarkPreprocessing:
         datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
                                                                rescale=1./255)
 
-        # target size is half of the image size based on the pictures from the OnePlus 7.
-        train_batches = datagen.flow_from_dataframe(train_df, directory=self.path, x_col='train_imgs', y_col='train_labels',
-                                                    target_size=target_size, batch_size=batch_size)
+        if testing:
 
-        val_batches = datagen.flow_from_dataframe(val_df, directory=self.path, x_col='val_imgs', y_col='val_labels',
-                                                    target_size=target_size, batch_size=batch_size)
+            test_batches = datagen.flow_from_dataframe(test_df, directory=self.path, x_col='val_imgs',
+                                                        y_col='val_labels', target_size=target_size,
+                                                        batch_size=batch_size)
 
-        cropped_train_batches = BarkPreprocessing.crop_generator(train_batches, 224)
-        cropped_val_batches = BarkPreprocessing.crop_generator(val_batches, 224)
+            cropped_test_batches = BarkPreprocessing.crop_generator(test_batches, 224)
 
-        return cropped_train_batches, cropped_val_batches
+            return cropped_test_batches
+
+        else:
+
+            # target size is half of the image size based on the pictures from the OnePlus 7.
+            train_batches = datagen.flow_from_dataframe(train_df, directory=self.path, x_col='train_imgs',
+                                                        y_col='train_labels', target_size=target_size,
+                                                        batch_size=batch_size)
+
+            cropped_train_batches = BarkPreprocessing.crop_generator(train_batches, 224)
+
+            val_batches = datagen.flow_from_dataframe(val_df, directory=self.path, x_col='val_imgs', y_col='val_labels',
+                                                      target_size=target_size, batch_size=batch_size)
+
+            cropped_val_batches = BarkPreprocessing.crop_generator(val_batches, 224)
+
+            return cropped_train_batches, cropped_val_batches
 
 
 
