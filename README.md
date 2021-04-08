@@ -1,7 +1,7 @@
 # Arnold-BarkNet
 
 Created a CNN to classify tree species based on images of the bark. It uses transfer learning through using the ResNet-50 architecture with ImageNet weights.
-It was trained on over 1000 images for two species of trees which will soon increase as more images are collected. It achieves an accuracy of 93% on the validation
+It was trained on over 1000 images for two species of trees which will soon increase as more images are collected. It achieves an accuracy of 80% on the test
 set. 
 
 ## Data Pipeline
