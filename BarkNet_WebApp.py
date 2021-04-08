@@ -47,7 +47,7 @@ def classify_bark(bark_image):
     class_num = {0: 'Ponderosa Pine', 1: 'California Incense Cedar',
                  2: 'WFIR', 3: 'VOAK'}
 
-    model = keras.models.load_model('../PersonalBarkNet/models/best_fold_1_model.h5')
+    model = keras.models.load_model('./PersonalBarkNet/models/best_fold_1_model.h5')
     probs = model(bark_array_cropped, training=False).numpy()
 
     prediction = np.argmax(probs)
@@ -66,7 +66,7 @@ def classify_bark(bark_image):
 def learn_more(tree):
 
     if tree == 'California Incense Cedar':
-        img = upload_bark('../local_objects_PersonalBarkNet/calincense.jpg')
+        img = upload_bark('./stock_pics/calincense.jpg')
         st.img(imag, width=400, height=400)
 
 
@@ -106,7 +106,7 @@ def main():
         if choice == 'image1':
             tree_classification = classify_bark(image1)
             st.title('The '+tree_classification[0])
-            img = upload_bark('../local_objects_PersonalBarkNet/calincense.jpg')
+            img = upload_bark('./stock_pics/calincense.jpg')
             st.image(img, width=400, height=400)
 
             st.write('Calocedrus decurrens, with the common names incense cedar and California incense-cedar '
@@ -118,7 +118,7 @@ def main():
         if choice == 'image2':
             tree_classification = classify_bark(image2)
             st.title('The ' + tree_classification[0])
-            img = upload_bark('../local_objects_PersonalBarkNet/1200px-Pinus_ponderosa_15932.jpeg')
+            img = upload_bark('../stock_pics/1200px-Pinus_ponderosa_15932.jpeg')
             st.image(img, width=400, height=400)
 
             st.write('Pinus ponderosa, commonly known as the ponderosa pine, bull pine, blackjack pine, '
