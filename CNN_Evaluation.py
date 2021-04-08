@@ -5,7 +5,7 @@ import Image_Preprocessing
 import DatasetMaker
 
 PATH = '../local_objects_PersonalBarkNet/data/test_data_1_2'
-BATCH_SIZE = 15
+BATCH_SIZE = 32
 
 dg = DatasetMaker.DatasetGenerator(PATH)
 
@@ -18,9 +18,9 @@ preprocess = Image_Preprocessing.BarkPreprocessing(PATH, test_set)
 # may try to fix to allow testing sets later
 test_set_df = preprocess.make_train_validation_set()[1][0]
 
-preprocessed_test_set = preprocess.preprocessing(test_df=test_set_df, batch_size=BATCH_SIZE, testing=True)
+preprocessed_test_set = preprocess.preprocessing(test_df=test_set_df, batch_size=BATCH_SIZE, testing=True, flip=False)
 
-BarkNet = keras.models.load_model('./models/best_fold_3_model.h5')
+BarkNet = keras.models.load_model('./early_stopping_models/best_fold_4_model.h5')
 
 result = BarkNet.evaluate(preprocessed_test_set, steps=len(test_set_df)//BATCH_SIZE)
 

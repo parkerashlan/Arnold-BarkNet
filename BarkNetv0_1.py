@@ -4,8 +4,8 @@ from tensorflow import keras
 import DatasetMaker
 import Image_Preprocessing
 
-BATCH_SIZE = 50
-DATA_PATH = './data/train_1_2'
+BATCH_SIZE = 32
+DATA_PATH = '../local_objects_PersonalBarkNet/data/train_1_2'
 
 dg = DatasetMaker.DatasetGenerator(path=DATA_PATH)
 
@@ -42,17 +42,21 @@ for i in range(1, k_folds[1]+1):
     train_fold_batch = dataset[0]
     val_fold_batch = dataset[1]
 
-    callbacks = [keras.callbacks.ModelCheckpoint(f'./best_fold_{i}_model.h5', monitor='val_categorical_accuracy',
-                                                 mode='max', save_best_only=True, verbose=1)]
+    callbacks = [keras.callbacks.ModelCheckpoint(f'./early_stopping_models/best_fold_{i}_model.h5',
+                                                 monitor='val_categorical_accuracy',
+                                                 mode='max', save_best_only=True, verbose=1),
+                 keras.callbacks.EarlyStopping(monitor='val_categorical_accuracy', min_delta=0.0001, patience=3,
+                                               mode='max')]
+
     history = bark_resnet50.fit(train_fold_batch,
                                 steps_per_epoch=len(train_folds[0])//BATCH_SIZE,
-                                epochs=15,
+                                epochs=20,
                                 validation_data=val_fold_batch,
                                 validation_steps=len(val_folds[0])//BATCH_SIZE,
                                 max_queue_size=300,
                                 callbacks=callbacks)
 
-    with open(f'./fold_{i}_results.pkl', 'wb') as file:
+    with open(f'./early_stopping_results/fold_{i}_results.pkl', 'wb') as file:
         file.write(pickle.dumps(history.history))
 
 

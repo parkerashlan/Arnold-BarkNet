@@ -110,7 +110,7 @@ class BarkPreprocessing:
             yield batch_crops, batch_y
 
     def preprocessing(self, train_df=None, val_df=None, test_df=None, target_size=(2000, 912), batch_size=32,
-                      testing=False):
+                      testing=False, flip=True):
         """
         Preprocess the image using ImageDataGenerator. Only does random flips and random crops right now
         to reflect the BarkNet 1.0 paper. (Could be updated later.)
@@ -126,7 +126,7 @@ class BarkPreprocessing:
             cropped_train_batches (Iter Object): An iterator which supplies the batches of images for the model.
         """
 
-        datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+        datagen = keras.preprocessing.image.ImageDataGenerator(horizontal_flip=flip,
                                                                rescale=1./255)
 
         if testing:
