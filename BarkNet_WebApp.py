@@ -118,7 +118,7 @@ def main():
         if choice == 'image2':
             tree_classification = classify_bark(image2)
             st.title('The ' + tree_classification[0])
-            img = upload_bark('../stock_pics/1200px-Pinus_ponderosa_15932.jpeg')
+            img = upload_bark('./stock_pics/1200px-Pinus_ponderosa_15932.jpeg')
             st.image(img, width=400, height=400)
 
             st.write('Pinus ponderosa, commonly known as the ponderosa pine, bull pine, blackjack pine, '
