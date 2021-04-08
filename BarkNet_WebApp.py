@@ -47,7 +47,7 @@ def classify_bark(bark_image):
     class_num = {0: 'Ponderosa Pine', 1: 'California Incense Cedar',
                  2: 'WFIR', 3: 'VOAK'}
 
-    model = keras.models.load_model('./PersonalBarkNet/models/best_fold_1_model.h5')
+    model = keras.models.load_model('./models/best_fold_1_model.h5')
     probs = model(bark_array_cropped, training=False).numpy()
 
     prediction = np.argmax(probs)
