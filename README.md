@@ -4,6 +4,15 @@ Created a CNN to classify tree species based on images of the bark. It uses tran
 It was trained on over 1000 images for two species of trees which will soon increase as more images are collected. It achieves an accuracy of 80% on the test
 set. 
 
+Idea for Web App: https://share.streamlit.io/parkerashlan/arnold-barknet/BarkNet_WebApp.py
+
+## Packages Needed
+* NumPy == 1.19.2
+* Pandas == 1.1.3
+* TensorFlow == 2.3.0
+* Python == 3.0 or above
+* Matplotlib == 3.2.2
+
 ## Data Pipeline
 
 Data_Labeller -> Dataset_Maker -> Image_Preprocessing
@@ -20,12 +29,6 @@ BarkNet uses Nadam as the optimizer and the ResNet-50 Architecture with ImageNet
 the dense layer is trained. I chose to train it over 15 epochs due to negligible increase in accuracy with continuing epochs. The accuracy of the model for each
 epoch and for each fold can be found in the results_graphs folder.
 
-## Packages Needed
-* NumPy == 1.19.2
-* Pandas == 1.1.3
-* TensorFlow == 2.3.0
-* Python == 3.0 or above
-* Matplotlib == 3.2.2
 
 ## Acknowledgements
 
