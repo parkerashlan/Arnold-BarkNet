@@ -72,7 +72,7 @@ def learn_more(tree):
 
 def main():
 
-    IMG_PATH = '../local_objects_PersonalBarkNet/data/train_data'
+    IMG_PATH = './example_pics'
     image1 = upload_bark(IMG_PATH + '/2_0_CAL_OnePlus7_0022_04.jpg')
     image2 = upload_bark(IMG_PATH + '/1_0_PON_OnePlus7_0157_0009.jpg')
 
