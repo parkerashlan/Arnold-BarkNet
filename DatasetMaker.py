@@ -4,6 +4,8 @@ import os
 import copy
 import pandas as pd
 
+from sklearn.model_selection import StratifiedKFold
+
 
 class DatasetGenerator:
 
@@ -59,7 +61,7 @@ class DatasetGenerator:
         # class from the dataset.
         for i in classes:
 
-            class_dist[i-1] = len(labels[labels == i])/self.m
+            class_dist[i-1] = sum(labels == i)/self.m
 
         # Get the number of images in each fold and round down to avoid out of index errors.
         num_images_in_fold = np.floor(self.m/folds)
@@ -77,10 +79,8 @@ class DatasetGenerator:
 
         for fold in range(1, folds+1):
 
-            # Create an array for the amount of images for each class, need to make a copy because it has to be
-            # reset for each fold. Need to reshape to make it a row vector for element-wise mult with the arange.
-            class_image_counts = np.multiply(copy.deepcopy(stratified_image_count.reshape(1, len(classes))),
-                                             np.arange(1, len(classes)+1))
+            class_image_counts = [np.floor(sum(labels == i)/folds) for i in range(1, len(classes)+1)]
+            class_image_counts = np.hstack(class_image_counts)
 
             df_idx = 0
             image_name_idx = 0
@@ -96,13 +96,12 @@ class DatasetGenerator:
                     continue
 
                 # Check if the number of images for that class is filled
-                if class_image_counts[0][class_num-1] != 0:
+                if class_image_counts[class_num-1] != 0:
 
                     fold_array.loc[df_idx, f'fold {fold}'] = image_names[image_name_idx]
                     fold_array.loc[df_idx, f'fold {fold} labels'] = class_num
 
-                    class_image_counts[0][class_num-1] -= class_num
-
+                    class_image_counts[class_num-1] -= 1
                     image_names[image_name_idx] = 0
                     df_idx += 1
                     image_name_idx += 1
@@ -113,3 +112,43 @@ class DatasetGenerator:
                     continue
 
         return fold_array, folds
+
+    def create_k_folds(self, folds=5, seed=None, shuffle=True):
+
+        image_names = np.asarray(self.get_labels_and_names()[1]).reshape(self.m, 1)
+        labels = np.asarray(self.get_labels_and_names()[0], dtype=np.int).reshape(self.m, 1)
+
+        skf = StratifiedKFold(n_splits=folds, shuffle=shuffle, random_state=seed)
+
+        X_train_sets = []
+        y_train_labels = []
+        X_test_sets = []
+        y_test_labels = []
+        for train_index, test_index in skf.split(image_names, labels):
+
+            X_train, X_test = image_names[train_index], image_names[test_index]
+            y_train, y_test = labels[train_index], labels[test_index]
+            X_train_sets.append(X_train)
+            y_train_labels.append(y_train)
+            X_test_sets.append(X_test)
+            y_test_labels.append(y_test)
+
+
+
+        return X_train_sets, y_train_labels, X_test_sets, y_test_labels
+
+if __name__ == '__main__':
+
+    PATH = '/home/aparker/PycharmProjects/local_objects_PersonalBarkNet/data/train_1_2'
+
+    dg = DatasetGenerator(path=PATH)
+
+    k_folds = dg.stratified_kfold_cv()
+
+    k_folds_sk = dg.create_k_folds()
+    train = k_folds_sk[0]
+    train_labels = k_folds_sk[1]
+
+    print(len(k_folds_sk[0]))
+
+    # print(k_folds[0].iloc[:, 2:5:2])

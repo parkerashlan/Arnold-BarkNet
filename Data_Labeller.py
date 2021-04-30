@@ -48,8 +48,8 @@ def data_labeller(path_to_labels, path_to_imgs, start_tree_numbers):
 
 
 if __name__ == "__main__":
-    path_labels = './raw_data/12_10_2020_labels.txt'
-    path_imgs = './raw_data/12_10_2020'
+    path_labels = '../local_objects_PersonalBarkNet/raw_data/12_10_2020_labels.txt'
+    path_imgs = '../local_objects_PersonalBarkNet/raw_data/test_imgs'
     start_tree_nums = [154, 41, 13, 1]  # in order of class numbers
 
     data_labeller(path_labels, path_imgs, start_tree_nums)
